@@ -46,8 +46,28 @@ class _HomePageState extends State<HomePage> {
           children: [
             Text(_weather?.cityName ?? "Loading city..."),
             _weather?.temperature != null
-                ? Text("${_weather?.temperature.round()}°C")
-                : SizedBox()
+                ? Column(
+                    children: [
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      // future Weather Icons
+                      Icon(
+                        Icons.space_bar_sharp,
+                        size: 40.0,
+                      ),
+                      // after Weather Icons here need to add time of this location
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Text("${_weather?.temperature.round()}°C"),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Text(_weather?.mainCondition ?? "")
+                    ],
+                  )
+                : SizedBox(),
           ],
         ),
       ),
