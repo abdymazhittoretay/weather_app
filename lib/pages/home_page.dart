@@ -45,23 +45,21 @@ class _HomePageState extends State<HomePage> {
             _weather?.areaName != null
                 ? Column(
                     children: [
-                      SizedBox(
-                        height: 20.0,
-                      ),
                       // future Weather Icons
-                      Icon(
-                        Icons.space_bar_sharp,
-                        size: 40.0,
+                      Container(
+                        height: MediaQuery.sizeOf(context).height * 0.2,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    "http://openweathermap.org/img/wn/${_weather?.weatherIcon}@4x.png"))),
                       ),
+                      Text(_weather?.weatherDescription ?? ""),
                       // after Weather Icons here need to add time of this location
                       SizedBox(
                         height: 20.0,
                       ),
-                      Text("${_weather?.temperature?.celsius?.toStringAsFixed(0)}°C"),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Text(_weather?.weatherDescription ?? "")
+                      Text(
+                          "${_weather?.temperature?.celsius?.toStringAsFixed(0)}°C"),
                     ],
                   )
                 : SizedBox(),
