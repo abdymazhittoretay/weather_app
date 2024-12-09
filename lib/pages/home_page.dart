@@ -35,36 +35,48 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 243, 242, 248),
+      backgroundColor: Colors.black,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(_weather?.areaName ?? "Loading city..."),
-            _weather?.areaName != null
-                ? Column(
-                    children: [
-                      // future Weather Icons
-                      Container(
-                        height: MediaQuery.sizeOf(context).height * 0.2,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    "http://openweathermap.org/img/wn/${_weather?.weatherIcon}@4x.png"))),
-                      ),
-                      Text(_weather?.weatherDescription ?? ""),
-                      // after Weather Icons here need to add time of this location
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Text(
-                          "${_weather?.temperature?.celsius?.toStringAsFixed(0)}°C"),
-                    ],
-                  )
-                : SizedBox(),
-          ],
-        ),
+        child: _weather != null
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.location_on),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    _weather?.areaName ?? "",
+                    style: TextStyle(color: Colors.white, fontSize: 24.0),
+                  ),
+                  // future Weather Icons
+                  Container(
+                    height: MediaQuery.sizeOf(context).height * 0.2,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(
+                                "http://openweathermap.org/img/wn/${_weather?.weatherIcon}@4x.png"))),
+                  ),
+                  Text(
+                    "${_weather?.temperature?.celsius?.toStringAsFixed(0)}°C",
+                    style: TextStyle(color: Colors.white, fontSize: 24.0),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    _weather?.weatherDescription ?? "",
+                    style: TextStyle(color: Colors.white, fontSize: 16.0),
+                  ),
+                  Text(
+                      "Max.: ${_weather?.tempMax?.celsius?.toStringAsFixed(0)},  Min.: ${_weather?.tempMin?.celsius?.toStringAsFixed(0)}",
+                      style: TextStyle(color: Colors.white, fontSize: 14.0)),
+                ],
+              )
+            : CircularProgressIndicator(
+                color: Colors.black,
+              ),
       ),
     );
   }
