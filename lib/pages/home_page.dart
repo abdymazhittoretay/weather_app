@@ -15,14 +15,19 @@ class _HomePageState extends State<HomePage> {
   final WeatherFactory _wf = WeatherFactory("253a1d17598d32dfc6ce7159df4ae4ee");
   Weather? _weather;
 
-  void _fetchWeather() async {
-    final String cityName = await getCurrentCity();
-
+  void getWeather(String cityName) {
     _wf.currentWeatherByCityName(cityName).then((w) {
       setState(() {
         _weather = w;
       });
+    }).catchError((e){
+      print(e);
     });
+  }
+
+  void _fetchWeather() async {
+    final String cityName = await getCurrentCity();
+    getWeather(cityName);
   }
 
   @override
@@ -31,6 +36,8 @@ class _HomePageState extends State<HomePage> {
 
     _fetchWeather();
   }
+
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +49,17 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(Icons.location_on),
+                  searchWidget(context),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Column(
+                    children: [],
+                  ),
+                  Icon(
+                    Icons.location_on,
+                    color: Colors.white,
+                  ),
                   SizedBox(
                     height: 10.0,
                   ),
@@ -77,6 +94,36 @@ class _HomePageState extends State<HomePage> {
             : CircularProgressIndicator(
                 color: Colors.black,
               ),
+      ),
+    );
+  }
+
+  Widget searchWidget(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: TextField(
+        onSubmitted: (value) {
+          setState(() {
+            getWeather(_controller.text);
+          });
+        },
+        controller: _controller,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+            hintText: "Enter city name",
+            hintStyle: TextStyle(color: Colors.grey),
+            border: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.white,
+                ),
+                borderRadius: BorderRadius.circular(10.0)),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+                borderRadius: BorderRadius.circular(10.0)),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+                borderRadius: BorderRadius.circular(10.0))),
       ),
     );
   }
