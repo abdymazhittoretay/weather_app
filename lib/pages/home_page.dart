@@ -91,7 +91,12 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        onPressed: () {},
+        onPressed: () => showDialog<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return openDialog(context);
+          },
+        ),
         child: Icon(Icons.search),
       ),
     );
@@ -99,13 +104,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget searchWidget(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: TextField(
-        onSubmitted: (value) {
-          setState(() {
-            getWeather(_controller.text);
-          });
-        },
         controller: _controller,
         textAlign: TextAlign.center,
         style: TextStyle(color: Colors.white),
@@ -124,6 +123,43 @@ class _HomePageState extends State<HomePage> {
                 borderSide: BorderSide(color: Colors.white),
                 borderRadius: BorderRadius.circular(10.0))),
       ),
+    );
+  }
+
+  Widget openDialog(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.black,
+      content: searchWidget(context),
+      actions: <Widget>[
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: Theme.of(context).textTheme.labelLarge,
+          ),
+          child: const Text(
+            'CANCEL',
+            style: TextStyle(color: Colors.white),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: Theme.of(context).textTheme.labelLarge,
+          ),
+          child: const Text(
+            'SEARCH',
+            style: TextStyle(color: Colors.white),
+          ),
+          onPressed: () {
+            setState(() {
+              getWeather(_controller.text);
+            });
+            _controller.clear();
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
     );
   }
 
