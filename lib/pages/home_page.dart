@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _weather = w;
       });
-    }).catchError((e){
+    }).catchError((e) {
       print(e);
     });
   }
@@ -49,13 +49,6 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  searchWidget(context),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Column(
-                    children: [],
-                  ),
                   Icon(
                     Icons.location_on,
                     color: Colors.white,
@@ -92,8 +85,14 @@ class _HomePageState extends State<HomePage> {
                 ],
               )
             : CircularProgressIndicator(
-                color: Colors.black,
+                color: Colors.white,
               ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        onPressed: () {},
+        child: Icon(Icons.search),
       ),
     );
   }
