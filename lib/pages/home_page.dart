@@ -103,26 +103,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget searchWidget(BuildContext context) {
-    return Container(
-      child: TextField(
-        controller: _controller,
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white),
-        decoration: InputDecoration(
-            hintText: "Enter city name",
-            hintStyle: TextStyle(color: Colors.grey),
-            border: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.white,
-                ),
-                borderRadius: BorderRadius.circular(10.0)),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-                borderRadius: BorderRadius.circular(10.0)),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-                borderRadius: BorderRadius.circular(10.0))),
-      ),
+    return TextField(
+      controller: _controller,
+      textAlign: TextAlign.center,
+      style: TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+          hintText: "Enter city name",
+          hintStyle: TextStyle(color: Colors.grey),
+          border: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white,
+              ),
+              borderRadius: BorderRadius.circular(10.0)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10.0)),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10.0))),
     );
   }
 
