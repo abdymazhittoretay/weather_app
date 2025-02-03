@@ -16,8 +16,9 @@ class _HomePageState extends State<HomePage> {
   String apiKey = dotenv.env['WEATHER_API_KEY'] ?? "";
   late final WeatherFactory _wf = WeatherFactory(apiKey);
   Weather? _weather;
+  List<Weather>? _forecast;
 
-  void getWeather(String cityName) {
+  void getWeather(String cityName) async {
     _wf.currentWeatherByCityName(cityName).then((w) {
       setState(() {
         _weather = w;
@@ -25,6 +26,16 @@ class _HomePageState extends State<HomePage> {
     }).catchError((e) {
       print(e);
     });
+
+    await _wf.fiveDayForecastByCityName(cityName).then((w) {
+      setState(() {
+        _forecast = w;
+      });
+    }).catchError((e) {
+      print(e);
+    });
+
+    print(_forecast![0]);
   }
 
   void _fetchWeather() async {
