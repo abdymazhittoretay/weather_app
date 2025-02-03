@@ -5,6 +5,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather/weather.dart';
 import 'package:weather_app/widgets/forecast_info.dart';
+import 'package:weather_app/widgets/open_dialog.dart';
 import 'package:weather_app/widgets/weather_info.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,11 +32,11 @@ class _HomePageState extends State<HomePage> {
 
     await _wf.fiveDayForecastByCityName(cityName).then((w) {
       Map<String, Weather> uniqueDays = {};
-      for (var weather in w) {
-        String key = weather.date.toString().split(" ")[0];
+      for (var day in w) {
+        String key = day.date.toString().split(" ")[0];
         if (!uniqueDays.containsKey(key) &&
             key != _weather?.date.toString().split(" ")[0]) {
-          uniqueDays[key] = weather;
+          uniqueDays[key] = day;
         }
       }
       setState(() {
@@ -104,70 +105,20 @@ class _HomePageState extends State<HomePage> {
         onPressed: () => showDialog<void>(
           context: context,
           builder: (BuildContext context) {
-            return openDialog(context);
+            return OpenDialog(
+              controller: _controller,
+              onPressed: () {
+                setState(() {
+                  getWeather(_controller.text);
+                });
+                _controller.clear();
+                Navigator.of(context).pop();
+              },
+            );
           },
         ),
         child: Icon(Icons.search),
       ),
-    );
-  }
-
-  Widget searchWidget(BuildContext context) {
-    return TextField(
-      controller: _controller,
-      textAlign: TextAlign.center,
-      style: TextStyle(color: Colors.white),
-      decoration: InputDecoration(
-          hintText: "Enter city name",
-          hintStyle: TextStyle(color: Colors.grey),
-          border: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.white,
-              ),
-              borderRadius: BorderRadius.circular(10.0)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-              borderRadius: BorderRadius.circular(10.0)),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-              borderRadius: BorderRadius.circular(10.0))),
-    );
-  }
-
-  Widget openDialog(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: Colors.black,
-      content: searchWidget(context),
-      actions: <Widget>[
-        TextButton(
-          style: TextButton.styleFrom(
-            textStyle: Theme.of(context).textTheme.labelLarge,
-          ),
-          child: const Text(
-            'CANCEL',
-            style: TextStyle(color: Colors.white),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        TextButton(
-          style: TextButton.styleFrom(
-            textStyle: Theme.of(context).textTheme.labelLarge,
-          ),
-          child: const Text(
-            'SEARCH',
-            style: TextStyle(color: Colors.white),
-          ),
-          onPressed: () {
-            setState(() {
-              getWeather(_controller.text);
-            });
-            _controller.clear();
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
     );
   }
 
