@@ -34,8 +34,6 @@ class _HomePageState extends State<HomePage> {
     }).catchError((e) {
       print(e);
     });
-
-    print(_forecast![0]);
   }
 
   void _fetchWeather() async {
@@ -66,11 +64,19 @@ class _HomePageState extends State<HomePage> {
                     Icons.location_on,
                     color: Colors.white,
                   ),
+
                   SizedBox(
                     height: 10.0,
                   ),
                   Text(
                     _weather?.areaName ?? "",
+                    style: TextStyle(color: Colors.white, fontSize: 24.0),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    "${_weather?.date!.hour.toString().padLeft(2, "0")}:${_weather?.date!.minute.toString().padLeft(2, "0")}",
                     style: TextStyle(color: Colors.white, fontSize: 24.0),
                   ),
                   // future Weather Icons
