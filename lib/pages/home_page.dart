@@ -32,7 +32,8 @@ class _HomePageState extends State<HomePage> {
       Map<String, Weather> uniqueDays = {};
       for (var weather in w) {
         String key = weather.date.toString().split(" ")[0];
-        if (!uniqueDays.containsKey(key)) {
+        if (!uniqueDays.containsKey(key) &&
+            key != _weather?.date.toString().split(" ")[0]) {
           uniqueDays[key] = weather;
         }
       }
