@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final WeatherFactory _wf = WeatherFactory("253a1d17598d32dfc6ce7159df4ae4ee");
+  final WeatherFactory _wf = WeatherFactory("");
   Weather? _weather;
 
   void getWeather(String cityName) {
