@@ -68,28 +68,30 @@ class _HomePageState extends State<HomePage> {
         child: _weather != null
             ? Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    WeatherInfo(weather: _weather!),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    _forecast != null
-                        ? SizedBox(
-                            width: MediaQuery.sizeOf(context).width,
-                            height: 200,
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: _forecast!.length,
-                                itemBuilder: (context, index) {
-                                  Weather day = _forecast![index];
-                                  return ForecastInfo(weather: day);
-                                }),
-                          )
-                        : SizedBox(),
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      WeatherInfo(weather: _weather!),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      _forecast != null
+                          ? SizedBox(
+                              width: MediaQuery.sizeOf(context).width,
+                              height: 200,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: _forecast!.length,
+                                  itemBuilder: (context, index) {
+                                    Weather day = _forecast![index];
+                                    return ForecastInfo(weather: day);
+                                  }),
+                            )
+                          : SizedBox(),
+                    ],
+                  ),
                 ),
               )
             : CircularProgressIndicator(
