@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather/weather.dart';
+import 'package:weather_app/widgets/weather_info.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -69,49 +70,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.location_on,
-                      color: Colors.white,
-                    ),
-
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Text(
-                      _weather?.areaName ?? "",
-                      style: TextStyle(color: Colors.white, fontSize: 24.0),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Text(_weather!.date.toString().split(" ")[0],
-                        style: TextStyle(color: Colors.white)),
-                    Text(
-                      "${_weather?.date!.hour.toString().padLeft(2, "0")}:${_weather?.date!.minute.toString().padLeft(2, "0")}",
-                      style: TextStyle(color: Colors.white, fontSize: 24.0),
-                    ),
-                    // future Weather Icons
-                    Container(
-                      height: MediaQuery.sizeOf(context).height * 0.2,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  "http://openweathermap.org/img/wn/${_weather?.weatherIcon}@4x.png"))),
-                    ),
-                    Text(
-                      "${_weather?.temperature?.celsius?.toStringAsFixed(0)}°C",
-                      style: TextStyle(color: Colors.white, fontSize: 24.0),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Text(
-                      _weather?.weatherDescription ?? "",
-                      style: TextStyle(color: Colors.white, fontSize: 16.0),
-                    ),
-                    Text(
-                        "Max.: ${_weather?.tempMax?.celsius?.toStringAsFixed(0)},  Min.: ${_weather?.tempMin?.celsius?.toStringAsFixed(0)}",
-                        style: TextStyle(color: Colors.white, fontSize: 14.0)),
+                    WeatherInfo(weather: _weather!),
                     SizedBox(
                       height: 20.0,
                     ),
