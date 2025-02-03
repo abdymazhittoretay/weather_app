@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather/weather.dart';
@@ -12,7 +13,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final WeatherFactory _wf = WeatherFactory("");
+  String apiKey = dotenv.env['WEATHER_API_KEY'] ?? "";
+  late final WeatherFactory _wf = WeatherFactory(apiKey);
   Weather? _weather;
 
   void getWeather(String cityName) {
