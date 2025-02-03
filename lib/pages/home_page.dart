@@ -28,8 +28,15 @@ class _HomePageState extends State<HomePage> {
     });
 
     await _wf.fiveDayForecastByCityName(cityName).then((w) {
+      Map<String, Weather> uniqueDays = {};
+      for (var weather in w) {
+        String key = weather.date.toString().split(" ")[0];
+        if (!uniqueDays.containsKey(key)) {
+          uniqueDays[key] = weather;
+        }
+      }
       setState(() {
-        _forecast = w;
+        _forecast = uniqueDays.values.toList();
       });
     }).catchError((e) {
       print(e);
@@ -56,52 +63,112 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.black,
       body: Center(
         child: _weather != null
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.location_on,
-                    color: Colors.white,
-                  ),
+            ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.location_on,
+                      color: Colors.white,
+                    ),
 
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Text(
-                    _weather?.areaName ?? "",
-                    style: TextStyle(color: Colors.white, fontSize: 24.0),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Text(
-                    "${_weather?.date!.hour.toString().padLeft(2, "0")}:${_weather?.date!.minute.toString().padLeft(2, "0")}",
-                    style: TextStyle(color: Colors.white, fontSize: 24.0),
-                  ),
-                  // future Weather Icons
-                  Container(
-                    height: MediaQuery.sizeOf(context).height * 0.2,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(
-                                "http://openweathermap.org/img/wn/${_weather?.weatherIcon}@4x.png"))),
-                  ),
-                  Text(
-                    "${_weather?.temperature?.celsius?.toStringAsFixed(0)}°C",
-                    style: TextStyle(color: Colors.white, fontSize: 24.0),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Text(
-                    _weather?.weatherDescription ?? "",
-                    style: TextStyle(color: Colors.white, fontSize: 16.0),
-                  ),
-                  Text(
-                      "Max.: ${_weather?.tempMax?.celsius?.toStringAsFixed(0)},  Min.: ${_weather?.tempMin?.celsius?.toStringAsFixed(0)}",
-                      style: TextStyle(color: Colors.white, fontSize: 14.0)),
-                ],
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      _weather?.areaName ?? "",
+                      style: TextStyle(color: Colors.white, fontSize: 24.0),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(_weather!.date.toString().split(" ")[0],
+                        style: TextStyle(color: Colors.white)),
+                    Text(
+                      "${_weather?.date!.hour.toString().padLeft(2, "0")}:${_weather?.date!.minute.toString().padLeft(2, "0")}",
+                      style: TextStyle(color: Colors.white, fontSize: 24.0),
+                    ),
+                    // future Weather Icons
+                    Container(
+                      height: MediaQuery.sizeOf(context).height * 0.2,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  "http://openweathermap.org/img/wn/${_weather?.weatherIcon}@4x.png"))),
+                    ),
+                    Text(
+                      "${_weather?.temperature?.celsius?.toStringAsFixed(0)}°C",
+                      style: TextStyle(color: Colors.white, fontSize: 24.0),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      _weather?.weatherDescription ?? "",
+                      style: TextStyle(color: Colors.white, fontSize: 16.0),
+                    ),
+                    Text(
+                        "Max.: ${_weather?.tempMax?.celsius?.toStringAsFixed(0)},  Min.: ${_weather?.tempMin?.celsius?.toStringAsFixed(0)}",
+                        style: TextStyle(color: Colors.white, fontSize: 14.0)),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    _forecast != null
+                        ? SizedBox(
+                            width: MediaQuery.sizeOf(context).width,
+                            height: 200,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: _forecast!.length,
+                                itemBuilder: (context, index) {
+                                  Weather day = _forecast![index];
+                                  return Container(
+                                    margin: EdgeInsets.only(right: 10.0),
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      color: Colors.grey[900],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(day.date.toString().split(" ")[0],
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14.0)),
+                                        Image.network(
+                                          "http://openweathermap.org/img/wn/${day.weatherIcon}@4x.png",
+                                          height: 50,
+                                          width: 50,
+                                        ),
+                                        Text(
+                                          "${day.temperature?.celsius?.toStringAsFixed(0)}°C",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18.0,
+                                          ),
+                                        ),
+                                        SizedBox(height: 5.0),
+                                        Text(day.weatherDescription.toString(),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14.0)),
+                                        Text(
+                                            "Max.: ${day.tempMax?.celsius?.toStringAsFixed(0)},  Min.: ${day.tempMin?.celsius?.toStringAsFixed(0)}",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14.0)),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                          )
+                        : SizedBox(),
+                  ],
+                ),
               )
             : CircularProgressIndicator(
                 color: Colors.white,
