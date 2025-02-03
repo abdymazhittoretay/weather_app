@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather/weather.dart';
+import 'package:weather_app/widgets/forecast_info.dart';
 import 'package:weather_app/widgets/weather_info.dart';
 
 class HomePage extends StatefulWidget {
@@ -84,46 +85,7 @@ class _HomePageState extends State<HomePage> {
                                 itemCount: _forecast!.length,
                                 itemBuilder: (context, index) {
                                   Weather day = _forecast![index];
-                                  return Container(
-                                    margin: EdgeInsets.only(right: 10.0),
-                                    width: 150,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      color: Colors.grey[900],
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(day.date.toString().split(" ")[0],
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 14.0)),
-                                        Image.network(
-                                          "http://openweathermap.org/img/wn/${day.weatherIcon}@4x.png",
-                                          height: 50,
-                                          width: 50,
-                                        ),
-                                        Text(
-                                          "${day.temperature?.celsius?.toStringAsFixed(0)}°C",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18.0,
-                                          ),
-                                        ),
-                                        SizedBox(height: 5.0),
-                                        Text(day.weatherDescription.toString(),
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 14.0)),
-                                        Text(
-                                            "Max.: ${day.tempMax?.celsius?.toStringAsFixed(0)},  Min.: ${day.tempMin?.celsius?.toStringAsFixed(0)}",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 14.0)),
-                                      ],
-                                    ),
-                                  );
+                                  return ForecastInfo(weather: day);
                                 }),
                           )
                         : SizedBox(),
